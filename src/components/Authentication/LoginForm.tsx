@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -10,13 +11,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-// import { useLoginMutation } from "@/redux/features/auth/auth.api";
+import { useLoginMutation } from "@/redux/features/auth/auth.api";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Password from "@/components/ui/Password";
-// import { toast } from "sonner";
+import { toast } from "sonner";
 
 
 const loginSchema = z.object({
@@ -37,21 +38,21 @@ export function LoginForm({
       password: "",
     },
   });
-  // const [login] = useLoginMutation();
+  const [login] = useLoginMutation();
   const onSubmit = async (data: z.infer<typeof loginSchema>) => {
     try {
-      // const res = await login(data).unwrap();
+      const res = await login(data).unwrap();
 
-      // if (res.success) {
-      //   toast.success("Logged in successfully");
-      //   navigate("/");
-      // }
-    } catch (err) {
-      console.error(err);
-
-      // if (err.data.message === "Password does not match") {
-      //   toast.error("Invalid credentials");
-      // }
+      if (res.success) {
+        toast.success("Logged in successfully");
+        navigate("/");
+      };
+    } catch (err: any) {
+      if (err.data.message === "Password does not match") {
+        toast.error("Invalid credentials");
+      } else {
+        toast.error(err.data.message);
+      };
     }
   };
 
@@ -104,7 +105,7 @@ export function LoginForm({
               )}
             />
 
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full text-white cursor-pointer">
               Login
             </Button>
           </form>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -15,8 +16,8 @@ import { Link, useNavigate } from "react-router";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Password from "@/components/ui/Password";
-// import { useRegisterMutation } from "@/redux/features/auth/auth.api";
-// import { toast } from "sonner";
+import { useRegisterMutation } from "@/redux/features/user/user.api";
+import { toast } from "sonner";
 
 const registerSchema = z
   .object({
@@ -50,7 +51,7 @@ export function RegisterForm({
   className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) {
-  // const [register] = useRegisterMutation();
+  const [register] = useRegisterMutation();
   const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof registerSchema>>({
@@ -71,12 +72,15 @@ export function RegisterForm({
     };
 
     try {
-      // await register(userInfo).unwrap();
-      console.log(userInfo);
-      // toast.success("Your Account is Created Successfully!");
-      navigate("/");
-    } catch (error) {
-      console.error(error);
+      const res = await register(userInfo).unwrap();
+      console.log(res);
+      if (res.success) {
+        toast.success("Your Account is Created Successfully! You can now login with your account.");
+      };
+
+      navigate("/login");
+    } catch (error: any) {
+      toast.error(error.message);
     }
   };
 
@@ -160,7 +164,7 @@ export function RegisterForm({
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full text-white">
+            <Button type="submit" className="w-full text-white cursor-pointer">
               Submit
             </Button>
           </form>
