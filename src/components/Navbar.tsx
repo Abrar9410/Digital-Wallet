@@ -26,7 +26,7 @@ const navigationLinks = [
 
 const Navbar = () => {
   return (
-    <header className="border-b px-4 md:px-6">
+    <header className="border-b bg-primary">
       <div className="container mx-auto flex h-16 items-center justify-between gap-4">
         {/* Left side */}
         <div className="flex items-center gap-2">
@@ -89,7 +89,7 @@ const Navbar = () => {
               <NavigationMenuList className="gap-2">
                 {navigationLinks.map((link, index) => (
                   <NavigationMenuItem key={index}>
-                    <NavigationMenuLink asChild className="text-muted-foreground hover:text-primary py-1.5 font-medium">
+                    <NavigationMenuLink asChild className="text-white hover:text-primary py-1.5 font-medium">
                       <NavLink to={link.to}>{link.label}</NavLink>
                     </NavigationMenuLink>
                   </NavigationMenuItem>
@@ -101,11 +101,11 @@ const Navbar = () => {
         {/* Right side */}
         <div className="flex items-center gap-2">
           <ThemeToggle />
-          <Button asChild variant="ghost" size="sm" className="text-sm">
+          <Button asChild variant="ghost" size="sm" className="text-sm text-white hover:bg-[#3200e8] hover:text-white dark:hover:bg-[#3200e8]">
             <Link to="/login">Sign In</Link>
           </Button>
-          <Button asChild size="sm" className="text-sm text-foreground">
-            <Link to="/register">Get Started</Link>
+          <Button asChild size="sm" className="text-sm bg-white text-primary hover:bg-[#3200e8] hover:text-white">
+            <Link to="/register">Register</Link>
           </Button>
         </div>
       </div>
