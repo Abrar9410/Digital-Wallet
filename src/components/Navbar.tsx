@@ -14,6 +14,9 @@ import {
 } from "@/components/ui/popover";
 import { ThemeToggle } from "./ThemeToggle";
 import { Link, NavLink } from "react-router";
+import { authApi, useLogoutMutation } from "@/redux/features/auth/auth.api";
+import { useUserInfoQuery } from "@/redux/features/user/user.api";
+import { useAppDispatch } from "@/redux/hook";
 
 // Navigation links array to be used in both desktop and mobile menus
 const navigationLinks = [
@@ -25,6 +28,20 @@ const navigationLinks = [
 ];
 
 const Navbar = () => {
+
+  const {data, isFetching} = useUserInfoQuery(undefined);
+  const [logout] = useLogoutMutation();
+  const dispatch = useAppDispatch();
+
+  const handleLogout = async () => {
+    await logout(undefined);
+    dispatch(authApi.util.resetApiState());
+  };
+
+  if (isFetching) {
+    return <p>Loading...</p>;
+  };
+
   return (
     <header className="border-b bg-primary">
       <div className="container mx-auto flex h-16 items-center justify-between gap-4">
@@ -101,12 +118,20 @@ const Navbar = () => {
         {/* Right side */}
         <div className="flex items-center gap-2">
           <ThemeToggle />
-          <Button asChild variant="ghost" size="sm" className="text-sm text-white hover:bg-[#3200e8] hover:text-white dark:hover:bg-[#3200e8]">
-            <Link to="/login">Sign In</Link>
-          </Button>
-          <Button asChild size="sm" className="text-sm bg-white text-primary hover:bg-[#3200e8] hover:text-white">
-            <Link to="/register">Register</Link>
-          </Button>
+          {
+            !data?.data.email ?
+              <>
+                <Button asChild variant="ghost" size="sm" className="text-sm text-white hover:bg-[#3200e8] hover:text-white dark:hover:bg-[#3200e8]">
+                  <Link to="/login">Sign In</Link>
+                </Button>
+                <Button asChild size="sm" className="text-sm bg-white text-primary hover:bg-[#3200e8] hover:text-white">
+                  <Link to="/register">Register</Link>
+                </Button>
+              </>:
+              <Button onClick={handleLogout} variant="outline" className="text-sm text-white hover:bg-destructive cursor-pointer">
+                Logout
+              </Button>
+          }
         </div>
       </div>
     </header>
