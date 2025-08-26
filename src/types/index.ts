@@ -5,7 +5,24 @@ export interface IResponse<T> {
   success: boolean;
   message: string;
   data: T;
-}
+};
+
+export type TRole = "ADMIN" | "AGENT" | "USER";
+
+export interface IUser {
+  _id?: string;
+  name: string;
+  email: string;
+  password?: string;
+  phone?: string;
+  picture?: string;
+  address?: string;
+  isDeleted?: boolean;
+  activeStatus?: string;
+  agentStatus?: string;
+  // isVerified?: boolean;
+  role: TRole;
+};
 
 export interface ISidebarItem {
   title: string;
@@ -14,9 +31,7 @@ export interface ISidebarItem {
     url: string;
     component: ComponentType;
   }[];
-}
-
-export type TRole = "ADMIN" | "AGENT" | "USER";
+};
 
 type ZodIssue = {
   code: string;

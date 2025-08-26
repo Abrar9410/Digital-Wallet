@@ -15,6 +15,10 @@ import FAQ from "@/pages/FAQ";
 import TermsOfService from "@/pages/TermsOfService";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
 import CookiePolicy from "@/pages/CookiePolicy";
+import Unauthorized from "@/pages/Unauthorized";
+import { withAuth } from "@/utils/withAuth";
+import { role } from "@/constants/role";
+import type { TRole } from "@/types";
 
 export const router = createBrowserRouter([
     {
@@ -56,7 +60,7 @@ export const router = createBrowserRouter([
         ]
     },
     {
-      Component: DashboardLayout,
+      Component: withAuth(DashboardLayout, role.admin as TRole),
       path: "/admin",
       children: [
         {
@@ -67,7 +71,7 @@ export const router = createBrowserRouter([
       ]
     },
     {
-      Component: DashboardLayout,
+      Component: withAuth(DashboardLayout, role.agent as TRole),
       path: "/agent",
       children: [
         {
@@ -78,7 +82,7 @@ export const router = createBrowserRouter([
       ]
     },
     {
-      Component: DashboardLayout,
+      Component: withAuth(DashboardLayout, role.user as TRole),
       path: "/user",
       children: [
         {
@@ -96,4 +100,8 @@ export const router = createBrowserRouter([
         path: "/register",
         Component: Register,
     },
+    {
+      path: "/unauthorized",
+      Component: Unauthorized
+    }
 ]);

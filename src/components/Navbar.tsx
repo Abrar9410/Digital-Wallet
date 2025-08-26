@@ -1,4 +1,3 @@
-
 import Logo from "@/assets/icons/Logo";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,9 +14,9 @@ import {
 import { ThemeToggle } from "./ThemeToggle";
 import { Link, NavLink } from "react-router";
 import { authApi, useLogoutMutation } from "@/redux/features/auth/auth.api";
-import { useUserInfoQuery } from "@/redux/features/user/user.api";
 import { useAppDispatch } from "@/redux/hook";
 import { role } from "@/constants/role";
+import type { IUser } from "@/types";
 
 // Navigation links array to be used in both desktop and mobile menus
 const navigationLinks = [
@@ -26,24 +25,19 @@ const navigationLinks = [
   { to: "/about", label: "About", role: "PUBLIC" },
   { to: "/contact", label: "Contact", role: "PUBLIC" },
   { to: "/faq", label: "FAQs", role: "PUBLIC" },
-  { to: "/admin/overview", label: "Dashboard", role: role.admin },
-  { to: "/agent/overview", label: "Dashboard", role: role.agent },
-  { to: "/user/overview", label: "Dashboard", role: role.user },
+  { to: "/admin", label: "Dashboard", role: role.admin },
+  { to: "/agent", label: "Dashboard", role: role.agent },
+  { to: "/user", label: "Dashboard", role: role.user },
 ];
 
-const Navbar = () => {
+const Navbar = ({user}: {user: IUser}) => {
 
-  const { data, isFetching } = useUserInfoQuery(undefined);
   const [logout] = useLogoutMutation();
   const dispatch = useAppDispatch();
 
   const handleLogout = async () => {
     await logout(undefined);
     dispatch(authApi.util.resetApiState());
-  };
-
-  if (isFetching) {
-    return <p>Loading...</p>;
   };
 
   return (
@@ -101,7 +95,7 @@ const Navbar = () => {
                         )
                       }
                       {
-                        link.role === data?.data?.role && (
+                        link.role === user?.role && (
                           <NavigationMenuItem key={index} className="w-full">
                             <NavigationMenuLink asChild className="py-1.5">
                               <NavLink to={link.to}>{link.label}</NavLink>
@@ -135,7 +129,7 @@ const Navbar = () => {
                       )
                     }
                     {
-                      link.role === data?.data?.role && (
+                      link.role === user?.role && (
                         <NavigationMenuItem key={index}>
                           <NavigationMenuLink asChild className="text-white hover:text-primary py-1.5 font-medium">
                             <NavLink to={link.to}>{link.label}</NavLink>
@@ -153,7 +147,7 @@ const Navbar = () => {
         <div className="flex items-center gap-2">
           <ThemeToggle />
           {
-            !data?.data.email ?
+            !user.email ?
               <>
                 <Button asChild variant="ghost" size="sm" className="text-sm text-white hover:bg-[#3200e8] hover:text-white dark:hover:bg-[#3200e8]">
                   <Link to="/login">Sign In</Link>
