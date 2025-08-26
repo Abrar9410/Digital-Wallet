@@ -118,3 +118,7 @@
     @apply bg-background text-foreground;
   }
 }
+
+.active {
+  @apply bg-accent text-accent-foreground;
+}

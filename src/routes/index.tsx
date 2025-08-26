@@ -3,7 +3,7 @@ import MainLayout from "@/layouts/MainLayout";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
 import { generateRoutes } from "@/utils/generateRoutes";
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter, Navigate } from "react-router";
 import { adminSidebarItems } from "./adminSidebarItems";
 import { userSidebarItems } from "./userSidebarItems";
 import { agentSidebarItems } from "./agentSidebarItems";
@@ -22,7 +22,6 @@ export const router = createBrowserRouter([
         Component: MainLayout,
         children: [
           {
-            index: true,
             path: "/",
             Component: Homepage
           },
@@ -59,17 +58,35 @@ export const router = createBrowserRouter([
     {
       Component: DashboardLayout,
       path: "/admin",
-      children: [...generateRoutes(adminSidebarItems)]
+      children: [
+        {
+          index: true,
+          element: <Navigate to="/admin/overview" />
+        },
+        ...generateRoutes(adminSidebarItems)
+      ]
     },
     {
       Component: DashboardLayout,
       path: "/agent",
-      children: [...generateRoutes(agentSidebarItems)]
+      children: [
+        {
+          index: true,
+          element: <Navigate to="/agent/overview" />
+        }, 
+        ...generateRoutes(agentSidebarItems)
+      ]
     },
     {
       Component: DashboardLayout,
       path: "/user",
-      children: [...generateRoutes(userSidebarItems)]
+      children: [
+        {
+          index: true,
+          element: <Navigate to="/user/overview"/>
+        }, 
+        ...generateRoutes(userSidebarItems)
+      ]
     },
     {
         path: "/login",

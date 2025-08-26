@@ -17,19 +17,23 @@ import { Link, NavLink } from "react-router";
 import { authApi, useLogoutMutation } from "@/redux/features/auth/auth.api";
 import { useUserInfoQuery } from "@/redux/features/user/user.api";
 import { useAppDispatch } from "@/redux/hook";
+import { role } from "@/constants/role";
 
 // Navigation links array to be used in both desktop and mobile menus
 const navigationLinks = [
-  { to: "/", label: "Home" },
-  { to: "/features", label: "Features" },
-  { to: "/about", label: "About" },
-  { to: "/contact", label: "Contact" },
-  { to: "/faq", label: "FAQs" },
+  { to: "/", label: "Home", role: "PUBLIC" },
+  { to: "/features", label: "Features", role: "PUBLIC" },
+  { to: "/about", label: "About", role: "PUBLIC" },
+  { to: "/contact", label: "Contact", role: "PUBLIC" },
+  { to: "/faq", label: "FAQs", role: "PUBLIC" },
+  { to: "/admin/overview", label: "Dashboard", role: role.admin },
+  { to: "/agent/overview", label: "Dashboard", role: role.agent },
+  { to: "/user/overview", label: "Dashboard", role: role.user },
 ];
 
 const Navbar = () => {
 
-  const {data, isFetching} = useUserInfoQuery(undefined);
+  const { data, isFetching } = useUserInfoQuery(undefined);
   const [logout] = useLogoutMutation();
   const dispatch = useAppDispatch();
 
@@ -86,11 +90,26 @@ const Navbar = () => {
               <NavigationMenu className="max-w-none *:w-full">
                 <NavigationMenuList className="flex-col items-start gap-0 md:gap-2">
                   {navigationLinks.map((link, index) => (
-                    <NavigationMenuItem key={index} className="w-full">
-                      <NavigationMenuLink asChild className="py-1.5">
-                        <NavLink to={link.to}>{link.label}</NavLink>
-                      </NavigationMenuLink>
-                    </NavigationMenuItem>
+                    <>
+                      {
+                        link.role === "PUBLIC" && (
+                          <NavigationMenuItem key={index} className="w-full">
+                            <NavigationMenuLink asChild className="py-1.5">
+                              <NavLink to={link.to}>{link.label}</NavLink>
+                            </NavigationMenuLink>
+                          </NavigationMenuItem>
+                        )
+                      }
+                      {
+                        link.role === data?.data?.role && (
+                          <NavigationMenuItem key={index} className="w-full">
+                            <NavigationMenuLink asChild className="py-1.5">
+                              <NavLink to={link.to}>{link.label}</NavLink>
+                            </NavigationMenuLink>
+                          </NavigationMenuItem>
+                        )
+                      }
+                    </>
                   ))}
                 </NavigationMenuList>
               </NavigationMenu>
@@ -105,11 +124,26 @@ const Navbar = () => {
             <NavigationMenu className="max-md:hidden">
               <NavigationMenuList className="gap-2">
                 {navigationLinks.map((link, index) => (
-                  <NavigationMenuItem key={index}>
-                    <NavigationMenuLink asChild className="text-white hover:text-primary py-1.5 font-medium">
-                      <NavLink to={link.to}>{link.label}</NavLink>
-                    </NavigationMenuLink>
-                  </NavigationMenuItem>
+                  <>
+                    {
+                      link.role === "PUBLIC" && (
+                        <NavigationMenuItem key={index}>
+                          <NavigationMenuLink asChild className="text-white hover:text-primary py-1.5 font-medium">
+                            <NavLink to={link.to}>{link.label}</NavLink>
+                          </NavigationMenuLink>
+                        </NavigationMenuItem>
+                      )
+                    }
+                    {
+                      link.role === data?.data?.role && (
+                        <NavigationMenuItem key={index}>
+                          <NavigationMenuLink asChild className="text-white hover:text-primary py-1.5 font-medium">
+                            <NavLink to={link.to}>{link.label}</NavLink>
+                          </NavigationMenuLink>
+                        </NavigationMenuItem>
+                      )
+                    }
+                  </>
                 ))}
               </NavigationMenuList>
             </NavigationMenu>
@@ -127,7 +161,7 @@ const Navbar = () => {
                 <Button asChild size="sm" className="text-sm bg-white text-primary hover:bg-[#3200e8] hover:text-white">
                   <Link to="/register">Register</Link>
                 </Button>
-              </>:
+              </> :
               <Button onClick={handleLogout} variant="outline" className="text-sm text-white hover:bg-destructive cursor-pointer">
                 Logout
               </Button>
