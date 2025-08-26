@@ -15,7 +15,7 @@ const MainLayout = () => {
 
     return (
         <div className=" min-h-screen flex flex-col">
-            <Navbar user={data.data}/>
+            <Navbar user={data?.data}/>
             <div className="grow-1">
                 <Outlet />
             </div>

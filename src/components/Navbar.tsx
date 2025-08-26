@@ -147,7 +147,7 @@ const Navbar = ({user}: {user: IUser}) => {
         <div className="flex items-center gap-2">
           <ThemeToggle />
           {
-            !user.email ?
+            !user?.email ?
               <>
                 <Button asChild variant="ghost" size="sm" className="text-sm text-white hover:bg-[#3200e8] hover:text-white dark:hover:bg-[#3200e8]">
                   <Link to="/login">Sign In</Link>

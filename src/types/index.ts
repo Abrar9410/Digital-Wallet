@@ -55,4 +55,4 @@ export interface IErrorResponse {
     name: string;
   };
   stack?: string;
-}
+};

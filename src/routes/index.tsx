@@ -19,11 +19,13 @@ import Unauthorized from "@/pages/Unauthorized";
 import { withAuth } from "@/utils/withAuth";
 import { role } from "@/constants/role";
 import type { TRole } from "@/types";
+import ErrorPage from "@/pages/ErrorPage";
 
 export const router = createBrowserRouter([
     {
         path: "/",
         Component: MainLayout,
+        errorElement: <ErrorPage></ErrorPage>,
         children: [
           {
             path: "/",
