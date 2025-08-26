@@ -13,7 +13,7 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { useLoginMutation } from "@/redux/features/auth/auth.api";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Password from "@/components/ui/Password";
@@ -30,6 +30,7 @@ export function LoginForm({
   className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) {
+  const location = useLocation();
   const navigate = useNavigate();
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -45,7 +46,7 @@ export function LoginForm({
 
       if (res.success) {
         toast.success("Logged in successfully");
-        navigate("/");
+        navigate(location.state ? location.state : "/");
       };
     } catch (err: any) {
       if (err.data.message === "Password does not match") {
