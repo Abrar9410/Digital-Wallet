@@ -1,9 +1,11 @@
-import AgentOverview from "@/pages/agent/AgentOverview";
-import CashIn from "@/pages/agent/CashIn";
-import CashOut from "@/pages/agent/CashOut";
-import Profile from "@/pages/user/Profile";
-import TransactionHistory from "@/pages/user/TransactionHistory";
 import type { ISidebarItem } from "@/types";
+import { lazy } from "react";
+
+const AgentOverview = lazy(() => import("@/pages/agent/AgentOverview"));
+const CashIn = lazy(() => import("@/pages/agent/CashIn"));
+const CashOut = lazy(() => import("@/pages/agent/CashOut"));
+const Profile = lazy(() => import("@/pages/user/Profile"));
+const TransactionHistory = lazy(() => import("@/pages/user/TransactionHistory"));
 
 export const agentSidebarItems: ISidebarItem[] = [
     {

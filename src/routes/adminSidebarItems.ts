@@ -1,11 +1,11 @@
-import AdminOverview from "@/pages/admin/AdminOverview";
-import ManageAgents from "@/pages/admin/ManageAgents";
-import ManageUsers from "@/pages/admin/ManageUsers";
-import Transactions from "@/pages/admin/Transactions";
-import Profile from "@/pages/user/Profile";
+import { lazy } from "react";
 import type { ISidebarItem } from "@/types";
 
-
+const AdminOverview = lazy(() => import("@/pages/admin/AdminOverview"));
+const ManageAgents = lazy(() => import("@/pages/admin/ManageAgents"));
+const ManageUsers = lazy(() => import("@/pages/admin/ManageUsers"));
+const Transactions = lazy(() => import("@/pages/admin/Transactions"));
+const Profile = lazy(() => import("@/pages/user/Profile"));
 
 
 export const adminSidebarItems: ISidebarItem[] = [
