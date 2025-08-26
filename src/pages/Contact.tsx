@@ -33,8 +33,7 @@ const Contact = () => {
     return (
         <div id="contact" className="bg-primary dark:bg-black my-8 py-16">
             <p className="w-10/12 lg:w-9/12 mx-auto text-white text-center text-xl mb-8">
-                Have any query? Or facing a problem? Or perhaps you want to organize a Medical Camp!
-                Feel free to reach out!
+                Have any query? Or facing a problem? Feel free to reach out!
             </p>
             <div className="w-11/12 md:w-10/12 mx-auto flex flex-col sm:flex-row justify-between">
                 <div className="flex flex-col items-center text-white w-full sm:w-1/2 p-8">
