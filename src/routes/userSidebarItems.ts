@@ -6,6 +6,7 @@ const SendMoney = lazy(() => import("@/pages/user/SendMoney"));
 const TopUp = lazy(() => import("@/pages/user/TopUp"));
 const TransactionHistory = lazy(() => import("@/pages/user/TransactionHistory"));
 const UserOverview = lazy(() => import("@/pages/user/UserOverview"));
+const WithdrawMoney = lazy(() => import("@/pages/user/WithdrawMoney"));
 
 export const userSidebarItems: ISidebarItem[] = [
   {
@@ -25,6 +26,11 @@ export const userSidebarItems: ISidebarItem[] = [
         title: "Deposit Money",
         url: "/user/top-up",
         component: TopUp
+      },
+      {
+        title: "Withdraw Money",
+        url: "/user/withdraw-money",
+        component: WithdrawMoney
       },
       {
         title: "Send Money",

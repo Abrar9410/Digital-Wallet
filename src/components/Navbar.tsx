@@ -12,11 +12,13 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { ThemeToggle } from "./ThemeToggle";
-import { Link, NavLink } from "react-router";
+import { Link, NavLink, useNavigate } from "react-router";
 import { authApi, useLogoutMutation } from "@/redux/features/auth/auth.api";
 import { useAppDispatch } from "@/redux/hook";
 import { role } from "@/constants/role";
 import type { IUser } from "@/types";
+import ConfirmationAlert from "./ConfirmationAlert";
+import { toast } from "sonner";
 
 // Navigation links array to be used in both desktop and mobile menus
 const navigationLinks = [
@@ -34,10 +36,17 @@ const Navbar = ({user}: {user: IUser}) => {
 
   const [logout] = useLogoutMutation();
   const dispatch = useAppDispatch();
+  const navigate = useNavigate()
 
   const handleLogout = async () => {
-    await logout(undefined);
-    dispatch(authApi.util.resetApiState());
+    const res = await logout(undefined).unwrap();
+    if (res.success) {
+      dispatch(authApi.util.resetApiState());
+      toast.success("Logged Out Successfully");
+      navigate("/");
+    } else {
+      toast.error("Failed to Logout! Please try again.");
+    };
   };
 
   return (
@@ -84,10 +93,10 @@ const Navbar = ({user}: {user: IUser}) => {
               <NavigationMenu className="max-w-none *:w-full">
                 <NavigationMenuList className="flex-col items-start gap-0 md:gap-2">
                   {navigationLinks.map((link, index) => (
-                    <>
+                    <div key={index}>
                       {
                         link.role === "PUBLIC" && (
-                          <NavigationMenuItem key={index} className="w-full">
+                          <NavigationMenuItem className="w-full">
                             <NavigationMenuLink asChild className="py-1.5">
                               <NavLink to={link.to}>{link.label}</NavLink>
                             </NavigationMenuLink>
@@ -96,14 +105,14 @@ const Navbar = ({user}: {user: IUser}) => {
                       }
                       {
                         link.role === user?.role && (
-                          <NavigationMenuItem key={index} className="w-full">
+                          <NavigationMenuItem className="w-full">
                             <NavigationMenuLink asChild className="py-1.5">
                               <NavLink to={link.to}>{link.label}</NavLink>
                             </NavigationMenuLink>
                           </NavigationMenuItem>
                         )
                       }
-                    </>
+                    </div>
                   ))}
                 </NavigationMenuList>
               </NavigationMenu>
@@ -118,10 +127,10 @@ const Navbar = ({user}: {user: IUser}) => {
             <NavigationMenu className="max-md:hidden">
               <NavigationMenuList className="gap-2">
                 {navigationLinks.map((link, index) => (
-                  <>
+                  <div key={index}>
                     {
                       link.role === "PUBLIC" && (
-                        <NavigationMenuItem key={index}>
+                        <NavigationMenuItem>
                           <NavigationMenuLink asChild className="text-white hover:text-primary py-1.5 font-medium">
                             <NavLink to={link.to}>{link.label}</NavLink>
                           </NavigationMenuLink>
@@ -130,14 +139,14 @@ const Navbar = ({user}: {user: IUser}) => {
                     }
                     {
                       link.role === user?.role && (
-                        <NavigationMenuItem key={index}>
+                        <NavigationMenuItem>
                           <NavigationMenuLink asChild className="text-white hover:text-primary py-1.5 font-medium">
                             <NavLink to={link.to}>{link.label}</NavLink>
                           </NavigationMenuLink>
                         </NavigationMenuItem>
                       )
                     }
-                  </>
+                  </div>
                 ))}
               </NavigationMenuList>
             </NavigationMenu>
@@ -156,9 +165,11 @@ const Navbar = ({user}: {user: IUser}) => {
                   <Link to="/register">Register</Link>
                 </Button>
               </> :
-              <Button onClick={handleLogout} variant="outline" className="text-sm text-white hover:bg-destructive cursor-pointer">
-                Logout
-              </Button>
+              <ConfirmationAlert onConfirm={handleLogout} dialogDescription="You are going to log out from your account.">
+                <Button className="text-sm text-white hover:bg-destructive border border-white/30 cursor-pointer">
+                  Logout
+                </Button>
+              </ConfirmationAlert>
           }
         </div>
       </div>
