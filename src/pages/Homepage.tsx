@@ -2,7 +2,7 @@
 
 const Homepage = () => {
     return (
-        <div>
+        <div className="container mx-auto">
             HOME
         </div>
     );

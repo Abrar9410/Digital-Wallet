@@ -2,7 +2,7 @@
 
 const FAQ = () => {
     return (
-        <div>
+        <div className="container mx-auto">
             FAQ
         </div>
     );

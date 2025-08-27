@@ -2,7 +2,7 @@
 
 const About = () => {
     return (
-        <div>
+        <div className="container mx-auto">
             ABOUT
         </div>
     );

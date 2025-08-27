@@ -3,7 +3,7 @@ import { lazy } from "react";
 
 const Profile = lazy(() => import("@/pages/user/Profile"));
 const SendMoney = lazy(() => import("@/pages/user/SendMoney"));
-const TopUp = lazy(() => import("@/pages/user/TopUp"));
+const DepositMoney = lazy(() => import("@/pages/user/DepositMoney"));
 const TransactionHistory = lazy(() => import("@/pages/user/TransactionHistory"));
 const UserOverview = lazy(() => import("@/pages/user/UserOverview"));
 const WithdrawMoney = lazy(() => import("@/pages/user/WithdrawMoney"));
@@ -25,7 +25,7 @@ export const userSidebarItems: ISidebarItem[] = [
       {
         title: "Deposit Money",
         url: "/user/top-up",
-        component: TopUp
+        component: DepositMoney
       },
       {
         title: "Withdraw Money",

@@ -2,7 +2,7 @@
 
 const Features = () => {
     return (
-        <div>
+        <div className="container mx-auto">
             FEATURES
         </div>
     );
