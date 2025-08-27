@@ -17,6 +17,8 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Password from "@/components/ui/Password";
 import { useRegisterMutation } from "@/redux/features/user/user.api";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
+import { role } from "@/constants/role";
 import { toast } from "sonner";
 
 const registerSchema = z
@@ -28,6 +30,17 @@ const registerSchema = z
       })
       .max(50),
     email: z.email(),
+    role: z.enum(["USER", "AGENT"]),
+    phone: z
+      .string({ error: "Phone Number must be string" })
+      .regex(/^(?:\+8801\d{9}|01\d{9})$/, {
+        message: "Phone number must be valid for Bangladesh. Format: +8801XXXXXXXXX or 01XXXXXXXXX",
+      })
+      .optional(),
+    address: z
+      .string({ error: "Address must be string" })
+      .max(200, "Address cannot exceed 200 characters.")
+      .optional(),
     password: z
       .string()
       .min(8, { error: "Password must be at least 8 characters long" })
@@ -59,28 +72,34 @@ export function RegisterForm({
     defaultValues: {
       name: "",
       email: "",
+      // role: "",
+      phone: "",
+      address: "",
       password: "",
       confirmPassword: "",
     },
   });
 
   const onSubmit = async (data: z.infer<typeof registerSchema>) => {
+    const toastId = toast.loading("Creating Account...")
     const userInfo = {
       name: data.name,
       email: data.email,
+      role: data.role,
+      phone: data.phone,
+      address: data.address,
       password: data.password,
     };
 
     try {
       const res = await register(userInfo).unwrap();
-      console.log(res);
       if (res.success) {
-        toast.success("Your Account is Created Successfully! You can now login with your account.");
+        toast.success("Your Account is Created Successfully! You can now login with your credentials.", {id: toastId});
       };
 
       navigate("/login");
     } catch (error: any) {
-      toast.error(error.message);
+      toast.error(error.message, { id: toastId });
     }
   };
 
@@ -120,13 +139,75 @@ export function RegisterForm({
                   <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="john.doe@company.com"
+                      placeholder="example123@company.com"
                       type="email"
                       {...field}
                     />
                   </FormControl>
                   <FormDescription className="sr-only">
                     This is your account email.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <div className="flex max-sm:flex-col items-center gap-6">
+              <FormField
+                control={form.control}
+                name="role"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>Role</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select your desired role" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <FormDescription className="sr-only">
+                        Choose your desired role.
+                      </FormDescription>
+                      <SelectContent>
+                        <SelectItem value={role.user}>User</SelectItem>
+                        <SelectItem value={role.agent}>Agent</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="phone"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>Phone (Optional)</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="01XXXXXXXXX"
+                        type="tel"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription className="sr-only">
+                      This is your phone number.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <FormField
+              control={form.control}
+              name="address"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Address (Optional)</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Write your address" {...field} />
+                  </FormControl>
+                  <FormDescription className="sr-only">
+                    This is your address.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>

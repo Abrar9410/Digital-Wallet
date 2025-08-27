@@ -41,18 +41,19 @@ export function LoginForm({
   });
   const [login] = useLoginMutation();
   const onSubmit = async (data: z.infer<typeof loginSchema>) => {
+    const toastId = toast.loading("Verifying Credentials...")
     try {
       const res = await login(data).unwrap();
 
       if (res.success) {
-        toast.success("Logged in successfully");
+        toast.success("Logged in successfully", {id: toastId});
         navigate(location.state ? location.state : "/");
       };
     } catch (err: any) {
       if (err.data.message === "Password does not match") {
-        toast.error("Invalid credentials");
+        toast.error("Invalid credentials", { id: toastId });
       } else {
-        toast.error(err.data.message);
+        toast.error(err.data.message, { id: toastId });
       };
     }
   };
@@ -60,9 +61,9 @@ export function LoginForm({
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <div className="flex flex-col items-center gap-2 text-center">
-        <h1 className="text-2xl font-bold">Login to your account</h1>
+        <h1 className="text-2xl font-bold">Welcome Back!</h1>
         <p className="text-balance text-sm text-muted-foreground">
-          Enter your email below to login to your account
+          Enter your credentials to login to your account
         </p>
       </div>
       <div className="grid gap-6">
