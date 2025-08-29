@@ -5,7 +5,7 @@ const AdminOverview = lazy(() => import("@/pages/admin/AdminOverview"));
 const ManageAgents = lazy(() => import("@/pages/admin/ManageAgents"));
 const ManageUsers = lazy(() => import("@/pages/admin/ManageUsers"));
 const Transactions = lazy(() => import("@/pages/admin/Transactions"));
-const Profile = lazy(() => import("@/pages/user/Profile"));
+const AdminProfile = lazy(() => import("@/pages/admin/AdminProfile"));
 
 
 export const adminSidebarItems: ISidebarItem[] = [
@@ -40,7 +40,7 @@ export const adminSidebarItems: ISidebarItem[] = [
       {
         title: "Admin Profile",
         url: "/admin/admin-profile",
-        component: Profile,
+        component: AdminProfile,
       },
     ],
   },

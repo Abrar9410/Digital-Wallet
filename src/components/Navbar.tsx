@@ -50,7 +50,7 @@ const Navbar = ({user}: {user: IUser}) => {
   };
 
   return (
-    <header className="border-b bg-primary">
+    <header className="border-b bg-primary sticky top-0 z-10 bg-opacity-30 backdrop-blur-md">
       <div className="container mx-auto flex h-16 items-center justify-between gap-4">
         {/* Left side */}
         <div className="flex items-center gap-2">

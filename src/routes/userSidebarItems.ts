@@ -1,12 +1,12 @@
 import type { ISidebarItem } from "@/types";
 import { lazy } from "react";
 
-const Profile = lazy(() => import("@/pages/user/Profile"));
+const UserOverview = lazy(() => import("@/pages/user/UserOverview"));
 const SendMoney = lazy(() => import("@/pages/user/SendMoney"));
 const DepositMoney = lazy(() => import("@/pages/user/DepositMoney"));
 const TransactionHistory = lazy(() => import("@/pages/user/TransactionHistory"));
-const UserOverview = lazy(() => import("@/pages/user/UserOverview"));
 const WithdrawMoney = lazy(() => import("@/pages/user/WithdrawMoney"));
+const UserProfile = lazy(() => import("@/pages/user/UserProfile"));
 
 export const userSidebarItems: ISidebarItem[] = [
   {
@@ -50,7 +50,7 @@ export const userSidebarItems: ISidebarItem[] = [
       {
         title: "Profile",
         url: "/user/profile",
-        component: Profile
+        component: UserProfile
       }
     ]
   }

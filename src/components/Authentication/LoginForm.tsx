@@ -30,8 +30,7 @@ export function LoginForm({
   className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) {
-  const location = useLocation();
-  const navigate = useNavigate();
+  
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -40,17 +39,19 @@ export function LoginForm({
     },
   });
   const [login] = useLoginMutation();
+  const location = useLocation()
+  const navigate = useNavigate();
+  
   const onSubmit = async (data: z.infer<typeof loginSchema>) => {
     const toastId = toast.loading("Verifying Credentials...")
     try {
       const res = await login(data).unwrap();
-
       if (res.success) {
-        toast.success("Logged in successfully", {id: toastId});
+        toast.success("Logged in successfully!", {id: toastId});
         navigate(location.state ? location.state : "/");
       };
     } catch (err: any) {
-      if (err.data.message === "Password does not match") {
+      if (err.data.message === "Incorrect Password!") {
         toast.error("Invalid credentials", { id: toastId });
       } else {
         toast.error(err.data.message, { id: toastId });

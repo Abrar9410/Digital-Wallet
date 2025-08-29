@@ -4,7 +4,7 @@ import { lazy } from "react";
 const AgentOverview = lazy(() => import("@/pages/agent/AgentOverview"));
 const CashIn = lazy(() => import("@/pages/agent/CashIn"));
 const CashOut = lazy(() => import("@/pages/agent/CashOut"));
-const Profile = lazy(() => import("@/pages/user/Profile"));
+const AgentProfile = lazy(() => import("@/pages/agent/AgentProfile"));
 const TransactionHistory = lazy(() => import("@/pages/user/TransactionHistory"));
 
 export const agentSidebarItems: ISidebarItem[] = [
@@ -44,7 +44,7 @@ export const agentSidebarItems: ISidebarItem[] = [
             {
                 title: "Profile",
                 url: "/agent/profile",
-                component: Profile
+                component: AgentProfile
             }
         ]
     }

@@ -56,7 +56,7 @@ axiosInstance.interceptors.response.use(
       error.response.data.message === "jwt expired" &&
       !originalRequest._retry
     ) {
-      console.log("Your token is expired");
+      // console.log("Your token is expired");
 
       originalRequest._retry = true;
 

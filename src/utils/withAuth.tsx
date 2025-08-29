@@ -13,7 +13,7 @@ export const withAuth = (Component: ComponentType, requiredRole?: TRole) => {
       return <PageLoading />;
     };
 
-    if (!isLoading && !data?.data?.email) {
+    if (!isLoading && !isFetching && !data?.data?.email) {
       return <Navigate state={location.pathname} to="/login" />;
     };
 

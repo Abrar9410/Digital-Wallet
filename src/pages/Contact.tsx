@@ -33,7 +33,7 @@ const Contact = () => {
     };
 
     return (
-        <div id="contact" className="bg-primary dark:bg-black my-8 py-16">
+        <div id="contact" className="bg-primary dark:bg-black mt-8 py-4">
             <p className="w-10/12 lg:w-9/12 mx-auto text-white text-center text-xl mb-8">
                 Have any query? Or facing a problem? Feel free to reach out!
             </p>

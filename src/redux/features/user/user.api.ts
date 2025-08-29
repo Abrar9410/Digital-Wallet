@@ -17,6 +17,15 @@ export const userApi = baseApi.injectEndpoints({
             }),
             providesTags: ["USER"],
         }),
+
+        updateUser: builder.mutation({
+            query: ({userId, ...userInfo}) => ({
+                url: `/users/update-user/${userId}`,
+                method: "PATCH",
+                data: userInfo
+            }),
+            invalidatesTags: ["USER"]
+        })
     })
 });
 
@@ -24,4 +33,5 @@ export const userApi = baseApi.injectEndpoints({
 export const {
   useRegisterMutation,
   useUserInfoQuery,
+  useUpdateUserMutation,
 } = userApi;
