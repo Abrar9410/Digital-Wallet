@@ -11,7 +11,7 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -49,6 +49,7 @@ const editProfileSchema = z
 
 export function EditProfile({ children, user }: IProps) {
 
+    const [open, setOpen] = useState(false);
     const [updateUser] = useUpdateUserMutation();
 
     const form = useForm<z.infer<typeof editProfileSchema>>({
@@ -75,14 +76,15 @@ export function EditProfile({ children, user }: IProps) {
           const res = await updateUser(userInfo).unwrap();
           if (res.success) {
             toast.success("Profile Updated Successfully!", {id: toastId});
+            setOpen(false);
           };
         } catch (error: any) {
-          toast.error(error.message, { id: toastId });
+          toast.error(error.data.message, { id: toastId });
         }
       };
 
     return (
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
                 {children}
             </DialogTrigger>

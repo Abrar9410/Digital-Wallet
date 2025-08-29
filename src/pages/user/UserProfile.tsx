@@ -7,6 +7,7 @@ import ProfileField from "@/components/ProfileField";
 import { useUserInfoQuery } from "@/redux/features/user/user.api";
 import PageLoading from "@/components/PageLoading";
 import { EditProfile } from "@/components/Modals/EditProfile";
+import { ChangePassword } from "@/components/Modals/ChangePassword";
 
 
 const UserProfile = () => {
@@ -63,9 +64,11 @@ const UserProfile = () => {
                                 Edit Profile
                             </Button>
                         </EditProfile>
-                        <Button variant="outline" className="w-full sm:w-40">
-                            Change Password
-                        </Button>
+                        <ChangePassword>
+                            <Button variant="outline" className="w-full sm:w-40">
+                                Change Password
+                            </Button>
+                        </ChangePassword>
                     </div>
                 </CardContent>
             </Card>

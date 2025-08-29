@@ -7,6 +7,7 @@ import { useUserInfoQuery } from "@/redux/features/user/user.api";
 import PageLoading from "@/components/PageLoading";
 import { Crown } from "lucide-react";
 import { EditProfile } from "@/components/Modals/EditProfile";
+import { ChangePassword } from "@/components/Modals/ChangePassword";
 
 
 const AdminProfile = () => {
@@ -51,9 +52,11 @@ const AdminProfile = () => {
                                 Edit Profile
                             </Button>
                         </EditProfile>
-                        <Button variant="outline" className="w-full sm:w-40 cursor-pointer">
-                            Change Password
-                        </Button>
+                        <ChangePassword>
+                            <Button variant="outline" className="w-full sm:w-40 cursor-pointer">
+                                Change Password
+                            </Button>
+                        </ChangePassword>
                     </div>
                 </CardContent>
             </Card>
