@@ -11,10 +11,36 @@ import { useState } from "react";
 const ManageAgents = () => {
 
     const [agentRequestsTab, setAgentRequestsTab] = useState(false);
+    const [filterValue, setFilterValue] = useState("");
 
     const [searchTerm, setSearchTerm] = useState("");
     const [agentStatus, setAgentStatus] = useState("");
     const [activeStatus, setActiveStatus] = useState("");
+
+    const handleSelectValueChange = (val: string) => {
+        setFilterValue(val);
+
+        if (val === "none") {
+            setFilterValue("");
+            setActiveStatus("");
+            setAgentStatus("");
+        } else if (val === "APPROVED") {
+            setAgentStatus("APPROVED");
+            setActiveStatus("");
+        } else if (val === "SUSPENDED") {
+            setAgentStatus("SUSPENDED");
+            setActiveStatus("");
+        } else if (val === "ACTIVE") {
+            setActiveStatus("ACTIVE");
+            setAgentStatus("");
+        } else if (val === "INACTIVE") {
+            setActiveStatus("INACTIVE");
+            setAgentStatus("");
+        } else if (val === "BLOCKED") {
+            setActiveStatus("BLOCKED");
+            setAgentStatus("");
+        }
+    };
 
     return (
         <div className="p-4 sm:p-6">
@@ -27,23 +53,22 @@ const ManageAgents = () => {
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="max-w-xs"
                 />
-                <Select>
+                <Select value={filterValue} onValueChange={(val) => handleSelectValueChange(val)}>
                     <SelectTrigger className="w-[130px] cursor-pointer">
                         <SelectValue placeholder="filter" />
                     </SelectTrigger>
                     <SelectContent>
                         <SelectGroup className="*:cursor-pointer">
-                            <SelectItem onClick={() => {setActiveStatus("");setAgentStatus("");}} value="none">filter (none)</SelectItem>
-                            {
-                                !agentRequestsTab &&
+                            <SelectItem value="none">filter (none)</SelectItem>
+                            {!agentRequestsTab && (
                                 <>
-                                <SelectItem onClick={() => { setAgentStatus("APPROVED"); setActiveStatus(""); }} value="APPROVED">Approved</SelectItem>
-                                <SelectItem onClick={() => { setAgentStatus("SUSPENDED"); setActiveStatus(""); }} value="SUSPENDED">Suspended</SelectItem>
+                                    <SelectItem value="APPROVED">Approved</SelectItem>
+                                    <SelectItem value="SUSPENDED">Suspended</SelectItem>
                                 </>
-                            }
-                            <SelectItem onClick={() => { setActiveStatus("ACTIVE"); setAgentStatus(""); }} value="ACTIVE">Active</SelectItem>
-                            <SelectItem onClick={() => { setActiveStatus("INACTIVE"); setAgentStatus(""); }} value="INACTIVE">Inactive</SelectItem>
-                            <SelectItem onClick={() => { setActiveStatus("BLOCKED"); setAgentStatus(""); }} value="BLOCKED">Blocked</SelectItem>
+                            )}
+                            <SelectItem value="ACTIVE">Active</SelectItem>
+                            <SelectItem value="INACTIVE">Inactive</SelectItem>
+                            <SelectItem value="BLOCKED">Blocked</SelectItem>
                         </SelectGroup>
                     </SelectContent>
                 </Select>

@@ -37,11 +37,11 @@ export const userApi = baseApi.injectEndpoints({
                 if (limit) params.append("limit", limit);
 
                 return {
-                    url: `/users/all-users?role=USER&${params.toString()}`,
+                    url: `/users/all-users?role=USER&${params}`,
                     method: "GET",
                 };
             },
-            providesTags: ["USER"],
+            providesTags: ["USERS"]
         }),
         
         getAgents: builder.query({
@@ -58,7 +58,7 @@ export const userApi = baseApi.injectEndpoints({
                     method: "GET",
                 };
             },
-            providesTags: ["AGENT"],
+            providesTags: ["AGENT"]
         }),
         
         getAgentRequests: builder.query({
@@ -74,7 +74,7 @@ export const userApi = baseApi.injectEndpoints({
                     method: "GET",
                 };
             },
-            providesTags: ["AGENT_REQUEST"],
+            providesTags: ["AGENT_REQUEST"]
         }),
 
         updateUser: builder.mutation({

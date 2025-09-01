@@ -6,9 +6,30 @@ import { useState } from "react";
 
 const ManageUsers = () => {
 
+    const [filterValue, setFilterValue] = useState("");
+
     const [searchTerm, setSearchTerm] = useState("");
     const [agentStatus, setAgentStatus] = useState("");
     const [activeStatus, setActiveStatus] = useState("");
+
+    const handleSelectValueChange = (val: string) => {
+        setFilterValue(val);
+
+        if (val === "none") {
+            setFilterValue("");
+            setActiveStatus("");
+            setAgentStatus("");
+        } else if (val === "ACTIVE") {
+            setActiveStatus("ACTIVE");
+            setAgentStatus("");
+        } else if (val === "INACTIVE") {
+            setActiveStatus("INACTIVE");
+            setAgentStatus("");
+        } else if (val === "BLOCKED") {
+            setActiveStatus("BLOCKED");
+            setAgentStatus("");
+        }
+    };
 
     return (
         <div className="p-4 sm:p-6">
@@ -21,7 +42,7 @@ const ManageUsers = () => {
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="max-w-xs"
                 />
-                <Select>
+                <Select value={filterValue} onValueChange={(val) => handleSelectValueChange(val)}>
                     <SelectTrigger className="w-[130px] cursor-pointer">
                         <SelectValue placeholder="filter" />
                     </SelectTrigger>
