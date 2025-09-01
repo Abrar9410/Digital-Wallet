@@ -8,6 +8,7 @@ import { useUserInfoQuery } from "@/redux/features/user/user.api";
 import PageLoading from "@/components/PageLoading";
 import { EditProfile } from "@/components/Modals/EditProfile";
 import { ChangePassword } from "@/components/Modals/ChangePassword";
+import { cn } from "@/lib/utils";
 
 const AgentProfile = () => {
     const { data, isLoading, isFetching } = useUserInfoQuery(undefined);
@@ -25,17 +26,16 @@ const AgentProfile = () => {
                 <CardHeader className="flex flex-col items-center">
                     <Avatar className="w-24 h-24 mb-4">
                         <AvatarImage src="/avatar-placeholder.png" alt="User avatar" />
-                        <AvatarFallback>U</AvatarFallback>
+                        <AvatarFallback className="text-4xl">{user.name.slice(0, 1).toUpperCase()}</AvatarFallback>
                     </Avatar>
                     <CardTitle className="text-2xl font-bold text-center">
-                        User Profile
+                        {user.name}
                     </CardTitle>
                 </CardHeader>
 
                 {/* Content Section */}
                 <CardContent className="space-y-6">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <ProfileField label="Name" value={user.name} />
                         <ProfileField label="Email" value={user.email} />
                         <ProfileField label="Phone" value={user.phone || "N/A"} />
                         <ProfileField label="Address" value={user.address || "N/A"} />
@@ -52,6 +52,23 @@ const AgentProfile = () => {
                                 </Badge>
                             }
                         />
+                        <ProfileField
+                            label="Agent Status"
+                            value={
+                                <Badge
+                                    variant={user.agentStatus === "SUSPENDED" ? "destructive" : "default"}
+                                    className={cn(
+                                        { "bg-green-500": user.agentStatus === "APPROVED" },
+                                        { "bg-yellow-500": user.agentStatus === "REQUESTED" },
+                                        { "bg-red-500": user.agentStatus === "SUSPENDED" },
+                                        { "bg-gray-500": user.agentStatus === "N/A" },
+                                        "px-2 py-1 text-xs font-semibold text-white"
+                                    )}
+                                >
+                                    {user.agentStatus}
+                                </Badge>
+                            }
+                        />
                     </div>
 
                     <Separator />
@@ -64,7 +81,7 @@ const AgentProfile = () => {
                             </Button>
                         </EditProfile>
                         <ChangePassword>
-                            <Button variant="outline" className="w-full sm:w-40">
+                            <Button variant="outline" className="w-full sm:w-40 cursor-pointer">
                                 Change Password
                             </Button>
                         </ChangePassword>

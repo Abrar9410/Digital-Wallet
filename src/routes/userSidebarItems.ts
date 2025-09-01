@@ -45,7 +45,7 @@ export const userSidebarItems: ISidebarItem[] = [
     ]
   },
   {
-    title: "",
+    title: "Management",
     items: [
       {
         title: "Profile",

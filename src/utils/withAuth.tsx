@@ -3,6 +3,7 @@ import { useUserInfoQuery } from "@/redux/features/user/user.api";
 import type { TRole } from "@/types";
 import type { ComponentType } from "react";
 import { Navigate, useLocation } from "react-router";
+import { toast } from "sonner";
 
 export const withAuth = (Component: ComponentType, requiredRole?: TRole) => {
   return function AuthWrapper() {
@@ -15,6 +16,11 @@ export const withAuth = (Component: ComponentType, requiredRole?: TRole) => {
 
     if (!isLoading && !isFetching && !data?.data?.email) {
       return <Navigate state={location.pathname} to="/login" />;
+    };
+
+    if (data?.data?.activeStatus === "BLOCKED") {
+      toast.error("Your Account has been Blocked! Please contact Admin for details.");
+      return <Navigate to="/" />;
     };
 
     if (requiredRole && !isLoading && requiredRole !== data?.data?.role) {

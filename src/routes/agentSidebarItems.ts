@@ -39,7 +39,7 @@ export const agentSidebarItems: ISidebarItem[] = [
         ]
     },
     {
-        title: "",
+        title: "Management",
         items: [
             {
                 title: "Profile",
