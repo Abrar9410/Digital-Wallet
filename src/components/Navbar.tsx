@@ -39,13 +39,14 @@ const Navbar = ({user}: {user: IUser}) => {
   const navigate = useNavigate()
 
   const handleLogout = async () => {
+    const toastId = toast.loading("Logging Out...");
     const res = await logout(undefined).unwrap();
     if (res.success) {
       dispatch(authApi.util.resetApiState());
-      toast.success("Logged Out Successfully");
+      toast.success("Logged Out Successfully", {id: toastId});
       navigate("/");
     } else {
-      toast.error("Failed to Logout! Please try again.");
+      toast.error("Failed to Logout! Please try again.", { id: toastId });
     };
   };
 

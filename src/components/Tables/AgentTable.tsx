@@ -32,19 +32,20 @@ interface IProps {
     searchTerm: string;
     activeStatus: string;
     agentStatus: string;
+    sort: string;
 };
 
 export default function AgentTable({ queryParams }: { queryParams: IProps }) {
-    const { searchTerm, agentStatus, activeStatus } = queryParams;
+    const { searchTerm, agentStatus, activeStatus, sort } = queryParams;
     const [currentPage, setCurrentPage] = useState(1);
     const limit = 10;
     let startIndex = (currentPage - 1) * limit;             // skip (in backend)
     let sliceEndIndex = ((currentPage - 1) * limit) + limit;
 
-    const { data, isLoading, isFetching } = useGetAgentsQuery({ searchTerm, agentStatus, activeStatus, limit: 10000 });
+    const { data, isLoading, isFetching } = useGetAgentsQuery({ searchTerm, agentStatus, activeStatus, sort, limit: 10000 });
     const [suspendAgent] = useSuspendAgentMutation();
-    const [blockUser] = useBlockAgentMutation();
-    const [unblockUser] = useUnblockAgentMutation();
+    const [blockAgent] = useBlockAgentMutation();
+    const [unblockAgent] = useUnblockAgentMutation();
     const [deleteUser] = useDeleteUserMutation();
     const [approveAgent] = useApproveAgentRequestMutation()
 
@@ -66,7 +67,7 @@ export default function AgentTable({ queryParams }: { queryParams: IProps }) {
     const handleBlock = async (id: string) => {
         const toastId = toast.loading("Blocking User...");
         try {
-            const res = await blockUser(id).unwrap();
+            const res = await blockAgent(id).unwrap();
 
             if (res.success) {
                 toast.success("User Blocked Successfully!", { id: toastId });
@@ -81,7 +82,7 @@ export default function AgentTable({ queryParams }: { queryParams: IProps }) {
     const handleUnblock = async (id: string) => {
         const toastId = toast.loading("Unblocking User...");
         try {
-            const res = await unblockUser(id).unwrap();
+            const res = await unblockAgent(id).unwrap();
 
             if (res.success) {
                 toast.success("User Account Activated Successfully!", { id: toastId });

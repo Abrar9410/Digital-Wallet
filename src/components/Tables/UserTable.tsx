@@ -19,7 +19,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import type { IUser } from "@/types";
-import { useApproveAgentRequestMutation, useBlockAgentMutation, useDeleteUserMutation, useGetUsersQuery, useUnblockAgentMutation } from "@/redux/features/user/user.api";
+import { useApproveAgentRequestMutation, useBlockUserMutation, useDeleteUserMutation, useGetUsersQuery, useUnblockUserMutation } from "@/redux/features/user/user.api";
 import PageLoading from "../PageLoading";
 import { cn } from "@/lib/utils";
 import ConfirmationAlert from "../ConfirmationAlert";
@@ -32,19 +32,20 @@ interface IProps {
     searchTerm: string;
     activeStatus: string;
     agentStatus: string;
+    sort: string;
 };
 
 export default function UserTable({ queryParams }: { queryParams: IProps }) {
-    const { searchTerm, agentStatus, activeStatus } = queryParams;
+    const { searchTerm, agentStatus, activeStatus, sort } = queryParams;
     const [currentPage, setCurrentPage] = useState(1);
     const limit = 10;
     let startIndex = (currentPage - 1) * limit;             // skip (in backend)
     let sliceEndIndex = ((currentPage - 1) * limit) + limit;
 
-    const { data, isLoading, isFetching } = useGetUsersQuery({ searchTerm, agentStatus, activeStatus, limit: 10000 });
+    const { data, isLoading, isFetching } = useGetUsersQuery({ searchTerm, agentStatus, activeStatus, sort, limit: 10000 });
     
-    const [blockUser] = useBlockAgentMutation();
-    const [unblockUser] = useUnblockAgentMutation();
+    const [blockUser] = useBlockUserMutation();
+    const [unblockUser] = useUnblockUserMutation();
     const [deleteUser] = useDeleteUserMutation();
     const [approveAgent] = useApproveAgentRequestMutation()
 

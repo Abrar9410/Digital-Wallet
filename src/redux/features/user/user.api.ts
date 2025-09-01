@@ -28,11 +28,12 @@ export const userApi = baseApi.injectEndpoints({
         }),
         
         getUsers: builder.query({
-            query: ({ searchTerm, agentStatus, activeStatus, page, limit }) => {
+            query: ({ searchTerm, agentStatus, activeStatus, sort, page, limit }) => {
                 const params = new URLSearchParams();
                 if (searchTerm) params.append("searchTerm", searchTerm);
                 if (agentStatus) params.append("agentStatus", agentStatus);
                 if (activeStatus) params.append("activeStatus", activeStatus);
+                if (sort) params.append("sort", sort);
                 if (page) params.append("page", page);
                 if (limit) params.append("limit", limit);
 
@@ -45,11 +46,12 @@ export const userApi = baseApi.injectEndpoints({
         }),
         
         getAgents: builder.query({
-            query: ({ searchTerm, agentStatus, activeStatus, page, limit }) => {
+            query: ({ searchTerm, agentStatus, activeStatus, sort, page, limit }) => {
                 const params = new URLSearchParams();
                 if (searchTerm) params.append("searchTerm", searchTerm);
                 if (agentStatus) params.append("agentStatus", agentStatus);
                 if (activeStatus) params.append("activeStatus", activeStatus);
+                if (sort) params.append("sort", sort);
                 if (page) params.append("page", page);
                 if (limit) params.append("limit", limit);
 
@@ -62,10 +64,11 @@ export const userApi = baseApi.injectEndpoints({
         }),
         
         getAgentRequests: builder.query({
-            query: ({ searchTerm, activeStatus, page, limit }) => {
+            query: ({ searchTerm, activeStatus, sort, page, limit }) => {
                 const params = new URLSearchParams();
                 if (searchTerm) params.append("searchTerm", searchTerm);
                 if (activeStatus) params.append("activeStatus", activeStatus);
+                if (sort) params.append("sort", sort);
                 if (page) params.append("page", page);
                 if (limit) params.append("limit", limit);
 
@@ -83,7 +86,7 @@ export const userApi = baseApi.injectEndpoints({
                 method: "PATCH",
                 data: userInfo
             }),
-            invalidatesTags: ["USER", "AGENT"]
+            invalidatesTags: ["USER", "USERS", "AGENT"]
         }),
         
         blockUser: builder.mutation({
@@ -92,7 +95,7 @@ export const userApi = baseApi.injectEndpoints({
                 method: "PATCH",
                 data: {activeStatus: "BLOCKED"}
             }),
-            invalidatesTags: ["USER", "AGENT"]
+            invalidatesTags: ["USERS"]
         }),
         
         unblockUser: builder.mutation({
@@ -101,7 +104,7 @@ export const userApi = baseApi.injectEndpoints({
                 method: "PATCH",
                 data: {activeStatus: "ACTIVE"}
             }),
-            invalidatesTags: ["USER", "AGENT"]
+            invalidatesTags: ["USERS"]
         }),
         
         blockAgent: builder.mutation({

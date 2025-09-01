@@ -22,6 +22,8 @@ export interface IUser {
   agentStatus?: string;
   // isVerified?: boolean;
   role: TRole;
+  createdAt?: string;
+  updatedAt?: string;
 };
 
 export interface ISidebarItem {

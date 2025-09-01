@@ -30,17 +30,18 @@ import { useState } from "react";
 interface IProps {
     searchTerm: string;
     activeStatus: string;
+    sort: string;
 };
 
 
 export default function AgentRequestTable({ queryParams }: { queryParams: IProps }) {
-    const { searchTerm, activeStatus } = queryParams;
+    const { searchTerm, activeStatus, sort } = queryParams;
     const [currentPage, setCurrentPage] = useState(1);
     const limit = 10;
     let startIndex = (currentPage - 1) * limit;             // skip (in backend)
     let sliceEndIndex = ((currentPage - 1) * limit) + limit;
 
-    const { data, isLoading, isFetching } = useGetAgentRequestsQuery({ searchTerm, activeStatus, limit: 10000 });
+    const { data, isLoading, isFetching } = useGetAgentRequestsQuery({ searchTerm, activeStatus, sort, limit: 10000 });
     const [approveAgentRequest] = useApproveAgentRequestMutation();
     const [denyAgentRequest] = useDenyAgentRequestMutation();
 
