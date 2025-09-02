@@ -237,7 +237,7 @@ export default function AgentTable({ queryParams }: { queryParams: IProps }) {
             </div>
 
             {data?.data.length > 0 && (
-                <div className="mt-4">
+                <div className="mt-10">
                     <Pagination>
                         <PaginationContent>
                             <PaginationItem>

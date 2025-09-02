@@ -24,7 +24,14 @@ export const userApi = baseApi.injectEndpoints({
                 method: "GET",
                 params
             }),
-            providesTags: ["USER"],
+            providesTags: ["USERS"],
+        }),
+
+        getSingleUser: builder.query({
+            query: (userId: string) => ({
+                url: `/users/${userId}`,
+                method: "GET"
+            })
         }),
         
         getUsers: builder.query({
@@ -174,6 +181,7 @@ export const {
   useRegisterMutation,
   useUserInfoQuery,
   useGetAllUsersQuery,
+  useGetSingleUserQuery,
   useGetUsersQuery,
   useGetAgentsQuery,
   useGetAgentRequestsQuery,

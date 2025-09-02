@@ -26,6 +26,19 @@ export interface IUser {
   updatedAt?: string;
 };
 
+export interface ITransaction {
+  _id?: string;
+  type: "TOP_UP" | "CASH_IN" | "CASH_OUT" | "SEND_MONEY";
+  from: string;
+  to: string;
+  transactionId: string;
+  amount: number;
+  fee?: number;
+  commission?: number;
+  createdAt?: string;
+  updatedAt?: string;
+};
+
 export interface ISidebarItem {
   title: string;
   items: {

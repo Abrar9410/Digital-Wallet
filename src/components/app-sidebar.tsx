@@ -20,6 +20,7 @@ import ConfirmationAlert from "./ConfirmationAlert"
 import { authApi, useLogoutMutation } from "@/redux/features/auth/auth.api"
 import { useAppDispatch } from "@/redux/hook"
 import { toast } from "sonner"
+import { LogOut } from "lucide-react"
 
 
 
@@ -72,7 +73,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarFooter>
         <ConfirmationAlert onConfirm={handleLogout} dialogDescription="You are going to log out from your account.">
           <SidebarMenuButton className="cursor-pointer hover:text-red-500 mb-2 *:ml-4">
-            <span>Logout</span>
+            <p className="flex items-center gap-1">Logout<LogOut className="h-5"/></p>
           </SidebarMenuButton>
         </ConfirmationAlert>
       </SidebarFooter>
