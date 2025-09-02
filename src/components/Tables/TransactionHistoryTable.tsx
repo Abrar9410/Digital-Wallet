@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 import {
     Table,
     TableBody,
@@ -16,7 +17,7 @@ import {
 } from "@/components/ui/pagination";
 import PageLoading from "../PageLoading";
 import { useState } from "react";
-import { useGetAllTransactionsQuery } from "@/redux/features/transaction/transaction.api";
+import { useGetMyTransactionsQuery } from "@/redux/features/transaction/transaction.api";
 import type { ITransaction } from "@/types";
 
 
@@ -26,13 +27,14 @@ interface IProps {
     sort: string;
 };
 
-export default function TransactionTable({ queryParams }: { queryParams: IProps }) {
+export default function TransactionHistoryTable({ queryParams }: { queryParams: IProps }) {
     const { searchTerm, filterValue, sort } = queryParams;
     const [currentPage, setCurrentPage] = useState(1);
+    const limit = 10;
+    let startIndex = (currentPage - 1) * limit;             // skip (in backend)
+    let sliceEndIndex = ((currentPage - 1) * limit) + limit;
 
-    const { data, isLoading, isFetching } = useGetAllTransactionsQuery({ searchTerm, type: filterValue, page: currentPage, sort });
-
-    const totalPage = data?.meta?.totalPage || 1;
+    const { data, isLoading, isFetching } = useGetMyTransactionsQuery({ searchTerm, type: filterValue, sort, limit: 100000 });
 
     if (isLoading || isFetching) {
         return <PageLoading />;
@@ -57,7 +59,7 @@ export default function TransactionTable({ queryParams }: { queryParams: IProps 
 
                     <TableBody>
                         {data?.data.length > 0 ? (
-                            data?.data.map((transaction: ITransaction) => (
+                            data?.data.slice(startIndex, sliceEndIndex).map((transaction: ITransaction) => (
                                 <TableRow key={transaction._id}>
                                     <TableCell>{transaction.from}</TableCell>
                                     <TableCell>{transaction.to}</TableCell>
@@ -78,7 +80,7 @@ export default function TransactionTable({ queryParams }: { queryParams: IProps 
                 </Table>
             </div>
 
-            {totalPage > 0 && (
+            {data?.data.length > 0 && (
                 <div className="mt-10">
                     <Pagination>
                         <PaginationContent>
@@ -92,7 +94,7 @@ export default function TransactionTable({ queryParams }: { queryParams: IProps 
                                     }
                                 />
                             </PaginationItem>
-                            {Array.from({ length: totalPage }, (_, index) => index + 1).map(
+                            {Array.from({ length: Math.ceil(data?.data.length / limit) }, (_, index) => index + 1).map(
                                 (page) => (
                                     <PaginationItem
                                         key={page}
@@ -109,7 +111,7 @@ export default function TransactionTable({ queryParams }: { queryParams: IProps 
                                 <PaginationNext
                                     onClick={() => setCurrentPage((prev) => prev + 1)}
                                     className={
-                                        currentPage === totalPage
+                                        currentPage === Math.ceil(data?.data.length / limit)
                                             ? "pointer-events-none opacity-50"
                                             : "cursor-pointer"
                                     }

@@ -20,11 +20,19 @@ export const transactionApi = baseApi.injectEndpoints({
         }),
         
         getMyTransactions: builder.query({
-            query: (params) => ({
-                url: "/transactions/my-transactions",
-                method: "GET",
-                params
-            }),
+            query: ({ searchTerm, type, sort, page, limit }) => {
+                const params = new URLSearchParams();
+                if(searchTerm) params.append("searchTerm", searchTerm);
+                if(type) params.append("type", type);
+                if(sort) params.append("sort", sort);
+                if(page) params.append("page", page);
+                if(limit) params.append("limit", limit);
+
+                return {
+                    url: `/transactions/my-transactions?${params}`,
+                    method: "GET",
+                };
+            },
             providesTags: ["TRANSACTION"],
         }),
         
