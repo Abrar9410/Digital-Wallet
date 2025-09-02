@@ -70,10 +70,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         ))}
       </SidebarContent>
       <SidebarRail />
-      <SidebarFooter>
+      <SidebarFooter className="pl-3">
         <ConfirmationAlert onConfirm={handleLogout} dialogDescription="You are going to log out from your account.">
-          <SidebarMenuButton className="cursor-pointer hover:text-red-500 mb-2 *:ml-4">
-            <p className="flex items-center gap-1">Logout<LogOut className="h-5"/></p>
+          <SidebarMenuButton className="cursor-pointer hover:text-red-500 mb-2">
+            <p className="flex items-center gap-1"><LogOut className="h-5"/>Logout</p>
           </SidebarMenuButton>
         </ConfirmationAlert>
       </SidebarFooter>
