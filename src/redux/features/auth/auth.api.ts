@@ -16,7 +16,7 @@ export const authApi = baseApi.injectEndpoints({
         url: "/auth/logout",
         method: "POST",
       }),
-      invalidatesTags: ["USER"],
+      invalidatesTags: ["USER", "USERS", "AGENT", "AGENT_REQUEST", "TRANSACTION"],
     }),
 
     changePassword: builder.mutation({

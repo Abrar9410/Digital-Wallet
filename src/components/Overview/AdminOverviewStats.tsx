@@ -3,11 +3,12 @@ import { cn } from "@/lib/utils";
 import { useGetAllTransactionsQuery } from "@/redux/features/transaction/transaction.api";
 import { useGetAgentsQuery, useGetUsersQuery } from "@/redux/features/user/user.api";
 import type { ITransaction } from "@/types";
+import PageLoading from "../PageLoading";
 
 export default function AdminOverviewStats() {
-    const { data: usersData } = useGetUsersQuery({});
-    const { data: agentsData } = useGetAgentsQuery({});
-    const { data: transactionsData } = useGetAllTransactionsQuery({});
+    const { data: usersData, isLoading: usersLoading, isFetching: usersFetching } = useGetUsersQuery({});
+    const { data: agentsData, isLoading: agentsLoading, isFetching: agentsFetching } = useGetAgentsQuery({});
+    const { data: transactionsData, isLoading: transactionsLoading, isFetching: transactionsFetching } = useGetAllTransactionsQuery({});
 
     const totalUsers = usersData?.data.length || 0;
     const totalAgents = agentsData?.data.length || 0;
@@ -20,6 +21,10 @@ export default function AdminOverviewStats() {
         { title: "Transactions", value: totalTransactions },
         { title: "Volume", value: `$${totalVolume.toFixed(2)}` },
     ];
+
+    if (usersLoading || usersFetching || agentsLoading || agentsFetching || transactionsLoading || transactionsFetching) {
+        return <PageLoading/>;
+    };
 
     return (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

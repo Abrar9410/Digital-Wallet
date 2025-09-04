@@ -24,7 +24,7 @@ export const userSidebarItems: ISidebarItem[] = [
     items: [
       {
         title: "Deposit Money",
-        url: "/user/top-up",
+        url: "/user/deposit-money",
         component: DepositMoney
       },
       {

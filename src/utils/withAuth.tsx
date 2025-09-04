@@ -1,29 +1,28 @@
 import PageLoading from "@/components/PageLoading";
-import { useUserInfoQuery } from "@/redux/features/user/user.api";
+import { useUser } from "@/contexts/UserContext";
 import type { TRole } from "@/types";
 import type { ComponentType } from "react";
-import { Navigate, useLocation } from "react-router";
+import { Navigate } from "react-router";
 import { toast } from "sonner";
 
 export const withAuth = (Component: ComponentType, requiredRole?: TRole) => {
   return function AuthWrapper() {
-    const { data, isLoading, isFetching } = useUserInfoQuery(undefined);
-    const location = useLocation()
+    const { userInfo, isLoading, isFetching, loading } = useUser();
 
-    if (isLoading || isFetching) {
+    if (isLoading || isFetching || loading) {
       return <PageLoading />;
     };
 
-    if (!isLoading && !isFetching && !data?.data?.email) {
-      return <Navigate state={location.pathname} to="/login" />;
+    if (!isLoading && !isFetching && !loading && !userInfo?.email) {
+      return <Navigate to="/login" />;
     };
 
-    if (data?.data?.activeStatus === "BLOCKED") {
+    if (userInfo?.activeStatus === "BLOCKED") {
       toast.error("Your Account has been Blocked! Please contact Admin for details.");
       return <Navigate to="/" />;
     };
 
-    if (requiredRole && !isLoading && requiredRole !== data?.data?.role) {
+    if (requiredRole && !isLoading && requiredRole !== userInfo?.role) {
       return <Navigate to="/unauthorized" />;
     };
 

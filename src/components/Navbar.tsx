@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Logo from "@/assets/icons/Logo";
 import { Button } from "@/components/ui/button";
 import {
@@ -32,7 +33,7 @@ const navigationLinks = [
   { to: "/user", label: "Dashboard", role: role.user },
 ];
 
-const Navbar = ({user}: {user: IUser}) => {
+const Navbar = ({ user, setUser }: { user: IUser | null, setUser: (any: any) => void}) => {
 
   const [logout] = useLogoutMutation();
   const dispatch = useAppDispatch();
@@ -43,6 +44,7 @@ const Navbar = ({user}: {user: IUser}) => {
     const res = await logout(undefined).unwrap();
     if (res.success) {
       dispatch(authApi.util.resetApiState());
+      setUser(null);
       toast.success("Logged Out Successfully", {id: toastId});
       navigate("/");
     } else {

@@ -1,4 +1,5 @@
 /* eslint-disable prefer-const */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
     Table,
     TableBody,
@@ -30,11 +31,13 @@ interface IProps {
 export default function TransactionHistoryTable({ queryParams }: { queryParams: IProps }) {
     const { searchTerm, filterValue, sort } = queryParams;
     const [currentPage, setCurrentPage] = useState(1);
-    const limit = 10;
-    let startIndex = (currentPage - 1) * limit;             // skip (in backend)
-    let sliceEndIndex = ((currentPage - 1) * limit) + limit;
+    // const limit = 10;
+    // let startIndex = (currentPage - 1) * limit;             // skip (in backend)
+    // let sliceEndIndex = ((currentPage - 1) * limit) + limit;
 
-    const { data, isLoading, isFetching } = useGetMyTransactionsQuery({ searchTerm, type: filterValue, sort, limit: 100000 });
+    const { data, isLoading, isFetching } = useGetMyTransactionsQuery({ searchTerm, type: filterValue, page: currentPage, sort, });
+    
+    const totalPage = data?.meta?.totalPage || 1;
 
     if (isLoading || isFetching) {
         return <PageLoading />;
@@ -59,7 +62,7 @@ export default function TransactionHistoryTable({ queryParams }: { queryParams: 
 
                     <TableBody>
                         {data?.data.length > 0 ? (
-                            data?.data.slice(startIndex, sliceEndIndex).map((transaction: ITransaction) => (
+                            data?.data.map((transaction: ITransaction) => (
                                 <TableRow key={transaction._id}>
                                     <TableCell>{transaction.from}</TableCell>
                                     <TableCell>{transaction.to}</TableCell>
@@ -80,7 +83,7 @@ export default function TransactionHistoryTable({ queryParams }: { queryParams: 
                 </Table>
             </div>
 
-            {data?.data.length > 0 && (
+            {totalPage > 0 && (
                 <div className="mt-10">
                     <Pagination>
                         <PaginationContent>
@@ -94,7 +97,7 @@ export default function TransactionHistoryTable({ queryParams }: { queryParams: 
                                     }
                                 />
                             </PaginationItem>
-                            {Array.from({ length: Math.ceil(data?.data.length / limit) }, (_, index) => index + 1).map(
+                            {Array.from({ length: totalPage }, (_, index) => index + 1).map(
                                 (page) => (
                                     <PaginationItem
                                         key={page}
@@ -111,7 +114,7 @@ export default function TransactionHistoryTable({ queryParams }: { queryParams: 
                                 <PaginationNext
                                     onClick={() => setCurrentPage((prev) => prev + 1)}
                                     className={
-                                        currentPage === Math.ceil(data?.data.length / limit)
+                                        currentPage === totalPage
                                             ? "pointer-events-none opacity-50"
                                             : "cursor-pointer"
                                     }

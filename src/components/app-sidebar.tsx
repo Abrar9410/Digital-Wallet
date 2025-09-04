@@ -15,19 +15,20 @@ import {
 import Logo from "@/assets/icons/Logo"
 import { Link, NavLink, useNavigate } from "react-router"
 import { getSidebarItems } from "@/utils/getSidebarItems"
-import { useUserInfoQuery } from "@/redux/features/user/user.api"
 import ConfirmationAlert from "./ConfirmationAlert"
+import { useUser } from "@/contexts/UserContext"
 import { authApi, useLogoutMutation } from "@/redux/features/auth/auth.api"
 import { useAppDispatch } from "@/redux/hook"
 import { toast } from "sonner"
 import { LogOut } from "lucide-react"
+import type { TRole } from "@/types"
 
 
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
-  const { data } = useUserInfoQuery(undefined);
-  const sidebarNav = getSidebarItems(data?.data.role);
+  const { userInfo, setUserInfo } = useUser();
+  const sidebarNav = getSidebarItems(userInfo?.role as TRole);
 
   const [logout] = useLogoutMutation();
   const dispatch = useAppDispatch();
@@ -38,6 +39,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     const res = await logout(undefined).unwrap();
     if (res.success) {
       dispatch(authApi.util.resetApiState());
+      setUserInfo(null);
       toast.success("Logged Out Successfully", {id: toastId});
       navigate("/");
     } else {

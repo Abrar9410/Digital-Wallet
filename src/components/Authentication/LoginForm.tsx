@@ -13,11 +13,12 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { useLoginMutation } from "@/redux/features/auth/auth.api";
 import { useForm } from "react-hook-form";
-import { Link, useLocation, useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Password from "@/components/ui/Password";
 import { toast } from "sonner";
+import { useUser } from "@/contexts/UserContext";
 
 
 const loginSchema = z.object({
@@ -38,8 +39,9 @@ export function LoginForm({
       password: "",
     },
   });
+
+  const { setUserInfo, refetch } = useUser();
   const [login] = useLoginMutation();
-  const location = useLocation()
   const navigate = useNavigate();
   
   const onSubmit = async (data: z.infer<typeof loginSchema>) => {
@@ -47,8 +49,10 @@ export function LoginForm({
     try {
       const res = await login(data).unwrap();
       if (res.success) {
+        const result = await refetch();
+        setUserInfo(result.data.data);
         toast.success("Logged in successfully!", {id: toastId});
-        navigate(location.state ? location.state : "/");
+        navigate(`/${result.data.data.role.toLowerCase() || ""}`);
       };
     } catch (err: any) {
       if (err.data.message === "Incorrect Password!") {
