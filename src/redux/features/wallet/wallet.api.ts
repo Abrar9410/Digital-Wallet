@@ -25,7 +25,7 @@ export const walletApi = baseApi.injectEndpoints({
                 method: "PATCH",
                 data: info
             }),
-            invalidatesTags: ["WALLET"]
+            invalidatesTags: ["WALLET", "TRANSACTION"]
         }),
         
         withdrawMoney: builder.mutation({
@@ -34,7 +34,7 @@ export const walletApi = baseApi.injectEndpoints({
                 method: "PATCH",
                 data: info
             }),
-            invalidatesTags: ["WALLET"]
+            invalidatesTags: ["WALLET", "TRANSACTION"]
         }),
         
         sendMoney: builder.mutation({
@@ -43,7 +43,7 @@ export const walletApi = baseApi.injectEndpoints({
                 method: "PATCH",
                 data: info
             }),
-            invalidatesTags: ["WALLET"]
+            invalidatesTags: ["WALLET", "TRANSACTION"]
         }),
         
         cashIn: builder.mutation({
@@ -52,7 +52,7 @@ export const walletApi = baseApi.injectEndpoints({
                 method: "PATCH",
                 data: info
             }),
-            invalidatesTags: ["WALLET"]
+            invalidatesTags: ["WALLET", "TRANSACTION"]
         }),
         
         cashOut: builder.mutation({
@@ -61,7 +61,7 @@ export const walletApi = baseApi.injectEndpoints({
                 method: "PATCH",
                 data: info
             }),
-            invalidatesTags: ["WALLET"]
+            invalidatesTags: ["WALLET", "TRANSACTION"]
         }),
     })
 });

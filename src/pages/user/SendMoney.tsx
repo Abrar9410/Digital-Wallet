@@ -122,7 +122,7 @@ const SendMoney = () => {
                                                     )}
                                                 </div>
 
-                                                <DialogFooter className="sticky bottom-0 flex justify-end">
+                                                <DialogFooter className="flex justify-end">
                                                     <DialogClose asChild>
                                                         <Button
                                                             disabled={!selectedEmail || !data?.data.length}

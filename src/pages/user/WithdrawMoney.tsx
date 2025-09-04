@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -89,6 +89,9 @@ const WithdrawMoney = () => {
                                             <DialogContent className="max-w-md flex flex-col">
                                                 <DialogHeader>
                                                     <DialogTitle>Select an Agent</DialogTitle>
+                                                    <DialogDescription className="sr-only">
+                                                        Choose an agent from the list below to auto-fill the email field.
+                                                    </DialogDescription>
                                                 </DialogHeader>
 
                                                 {/* Search Input */}
@@ -118,7 +121,7 @@ const WithdrawMoney = () => {
                                                     )}
                                                 </div>
 
-                                                <DialogFooter className="sticky bottom-0 flex justify-end">
+                                                <DialogFooter className="flex justify-end">
                                                     <DialogClose asChild>
                                                         <Button
                                                             disabled={!selectedEmail || !data?.data.length}
