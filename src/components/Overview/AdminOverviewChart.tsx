@@ -89,14 +89,14 @@ export default function OverviewChart() {
                             <YAxis stroke="var(--foreground)" />
                             <Tooltip
                                 contentStyle={{
-                                    backgroundColor: "var(--tooltip-bg)",
-                                    color: "var(--tooltip-text)",
+                                    backgroundColor: "var(--accent)",
+                                    color: "var(--accent-foreground)",
                                 }}
                             />
                             <Legend />
                             <Bar
                                 dataKey="volume"
-                                name="Transaction Volume"
+                                name="Transaction Volume (৳)"
                                 fill="var(--muted-foreground)"
                                 radius={[4, 4, 0, 0]}
                             />

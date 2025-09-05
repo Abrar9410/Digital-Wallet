@@ -19,7 +19,7 @@ export default function AdminOverviewStats() {
         { title: "Total Users", value: totalUsers },
         { title: "Total Agents", value: totalAgents },
         { title: "Transactions", value: totalTransactions },
-        { title: "Volume", value: `$${totalVolume.toFixed(2)}` },
+        { title: "Volume", value: `৳ ${totalVolume.toFixed(2)}` },
     ];
 
     if (usersLoading || usersFetching || agentsLoading || agentsFetching || transactionsLoading || transactionsFetching) {

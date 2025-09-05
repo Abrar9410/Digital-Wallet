@@ -18,6 +18,7 @@ import PageLoading from "../PageLoading";
 import { useState } from "react";
 import { useGetAllTransactionsQuery } from "@/redux/features/transaction/transaction.api";
 import type { ITransaction } from "@/types";
+import dayjs from "dayjs";
 
 
 interface IProps {
@@ -46,9 +47,9 @@ export default function TransactionTable({ queryParams }: { queryParams: IProps 
                 <Table>
                     <TableHeader>
                         <TableRow>
+                            <TableHead>Type</TableHead>
                             <TableHead>From</TableHead>
                             <TableHead>To</TableHead>
-                            <TableHead>Type</TableHead>
                             <TableHead>Amount (BDT)</TableHead>
                             <TableHead>Date-Time</TableHead>
                             <TableHead>Transaction ID</TableHead>
@@ -59,11 +60,11 @@ export default function TransactionTable({ queryParams }: { queryParams: IProps 
                         {data?.data.length > 0 ? (
                             data?.data.map((transaction: ITransaction) => (
                                 <TableRow key={transaction._id}>
+                                    <TableCell>{transaction.type}</TableCell>
                                     <TableCell>{transaction.from}</TableCell>
                                     <TableCell>{transaction.to}</TableCell>
-                                    <TableCell>{transaction.type}</TableCell>
                                     <TableCell>{transaction.amount}</TableCell>
-                                    <TableCell>{transaction.createdAt}</TableCell>
+                                    <TableCell>{dayjs(transaction.createdAt).format("DD MMM YYYY HH:mm")}</TableCell>
                                     <TableCell>{transaction.transactionId}</TableCell>
                                 </TableRow>
                             ))

@@ -63,6 +63,15 @@ export const walletApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: ["WALLET", "TRANSACTION"]
         }),
+
+        recharge: builder.mutation({
+            query: (info: {amount: number}) => ({
+                url: "/wallets/recharge",
+                method: "PATCH",
+                data: info
+            }),
+            invalidatesTags: ["WALLET", "TRANSACTION"]
+        }),
     })
 });
 
@@ -73,5 +82,6 @@ export const {
     useWithdrawMoneyMutation,
     useSendMoneyMutation,
     useCashInMutation,
-    useCashOutMutation
+    useCashOutMutation,
+    useRechargeMutation
 } = walletApi;
